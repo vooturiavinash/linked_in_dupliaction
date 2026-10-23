@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LDC — LinkedIn Duplication Check</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2a44'/%3E%3Crect x='14' y='16' width='24' height='30' rx='4' fill='none' stroke='%23fffaf3' stroke-width='3'/%3E%3Crect x='26' y='22' width='24' height='30' rx='4' fill='%23d4382c'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@380;500;640;760&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="drop-veil" id="drop-veil" hidden>
+      <div class="drop-card">
+        <span class="drop-mark" aria-hidden="true"></span>
+        <strong>Drop the spreadsheet</strong>
+        <p>LDC will compare every LinkedIn URL and stamp the ones that appear twice.</p>
+      </div>
+    </div>
+
+    <div class="app" id="app">
+      <header class="hero">
+        <div class="brand">
+          <div class="mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <b>2×</b>
+          </div>
+          <div>
+            <p class="eyebrow">LinkedIn lead checker</p>
+            <h1>LDC</h1>
+          </div>
+        </div>
+        <div class="hero-copy">
+          <p>Same LinkedIn URL on two or more rows is a duplicate. Edit or remove a lead here and the Excel file changes with it.</p>
+        </div>
+        <div class="source-card">
+          <div class="live-dot" id="live-dot" aria-hidden="true"></div>
+          <div class="source-text">
+            <strong id="source-name">Waiting for the spreadsheet</strong>
+            <span id="source-meta">Reading the live file…</span>
+          </div>
+          <div class="source-actions">
+            <button type="button" id="refresh">Check again</button>
+            <label class="file-btn">
+              Open file
+              <input id="file-input" type="file" accept=".xlsx,.xlsm,.xls,.csv" hidden />
+            </label>
+            <button type="button" id="use-live" hidden>Watch live file</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="checkbar" id="checkbar" data-phase="idle">
+        <span class="check-orb" aria-hidden="true"></span>
+        <p id="check-label" aria-live="polite">Preparing the duplication check…</p>
+      </section>
+
+      <div class="banner" id="live-banner" hidden>
+        <p>The watched spreadsheet changed while you were viewing a dropped file.</p>
+        <button type="button" id="load-live">Check the live file</button>
+      </div>
+
+      <section class="stats" id="stats" aria-label="Check summary"></section>
+
+      <div class="workspace">
+        <section class="table-card">
+          <div class="table-toolbar">
+            <div>
+              <h2>Leads</h2>
+              <p id="showing">No rows yet</p>
+            </div>
+            <div class="toolbar-controls">
+              <label class="search">
+                <span>Search</span>
+                <input id="search" type="search" placeholder="Name, school, URL, email" autocomplete="off" />
+              </label>
+              <button type="button" id="sort-toggle" aria-pressed="true">Duplicates first</button>
+            </div>
+          </div>
+          <div class="scan" id="scan" aria-hidden="true"></div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Row</th>
+                  <th>Contact</th>
+                  <th class="col-role">Designation</th>
+                  <th>School</th>
+                  <th class="col-place">Location</th>
+                  <th class="col-owner">Owner</th>
+                  <th>LinkedIn URL</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="groups">
+          <div class="groups-head">
+            <h2>Duplicate sets</h2>
+            <p>Each set is one LinkedIn profile found on more than one row.</p>
+          </div>
+          <div id="group-list"></div>
+        </aside>
+      </div>
+    </div>
+
+    <dialog id="drawer">
+      <div class="drawer-top">
+        <p class="eyebrow" id="drawer-kicker">Lead</p>
+        <form method="dialog">
+          <button type="submit" class="icon-close" aria-label="Close">Close</button>
+        </form>
+      </div>
+      <div id="drawer-body"></div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
